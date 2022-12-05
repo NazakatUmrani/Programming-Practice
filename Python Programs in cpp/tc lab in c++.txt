@@ -1,0 +1,3 @@
+I performed labs in Telecomm with sir atta,
+there I learned a lot of things in python, now here I will repeat those programs
+but instead of using python I will use c++
