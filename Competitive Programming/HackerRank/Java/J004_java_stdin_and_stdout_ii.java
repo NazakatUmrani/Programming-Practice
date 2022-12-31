@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class Solution {
+public class J004_java_stdin_and_stdout_ii {
 
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);

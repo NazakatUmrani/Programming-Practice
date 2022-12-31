@@ -7,10 +7,10 @@ int binarySearch(int a[], int size, int k){
     while (startPoint <= endPoint)
     {
         int mid = (startPoint+endPoint)/2;
-        if(a[mid] == k){
+        if(a[mid] == k && a[mid-1] != k){
             return mid;
         }
-        else if (a[mid] > k)
+        else if (a[mid] >= k)
         {
             endPoint = mid-1;
         }
