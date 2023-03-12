@@ -8,7 +8,7 @@ def nCr(n, r):
     return nCrVar
 print("Pascal Triangle Generator")
 r = int(input("Enter number of rows you want to generate: "))
-for i in range(0, r+1):
-    for j in range(0,i):
+for i in range(0, r):
+    for j in range(0,i+1):
         print(int(nCr(i,j)), end = " ")
     print()
