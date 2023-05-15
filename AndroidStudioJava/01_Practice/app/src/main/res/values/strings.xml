@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">01_Practice</string>
+    <string name="assalam_u_alaikum">Assalam u alaikum</string>
+    <string name="enter_second_number">Enter second number</string>
+    <string name="enter_first_number">Enter First Number</string>
+    <string name="textview3">+</string>
+    <string name="calculate_sum">Calculate Sum</string>
+    <string name="multiplication_table_generator">Multiplication Table Generator</string>
+    <string name="enter_a_number">Enter a number</string>
+    <string name="generate">Generate</string>
+    <string name="_1_x_1_1_n1_x_2_2_n1_x_3_3_n1_x_4_4_n1_x_5_5_n1_x_6_6_n1_x_7_7_n1_x_8_8_n1_x_9_9_n1_x_10_10">1 x 1 = 1\n1 x 2 = 2\n1 x 3 = 3\n1 x 4 = 4\n1 x 5 = 5\n1 x 6 = 6\n1 x 7 = 7\n1 x 8 = 8\n1 x 9 = 9\n1 x 10 = 10</string>
+</resources>

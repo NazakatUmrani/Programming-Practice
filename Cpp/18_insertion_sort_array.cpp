@@ -16,7 +16,6 @@ void insertionSort(int a[], int size){
    
 }
 
-
 int main(){
     int n;
     cout<<"Enter length of array: ";
