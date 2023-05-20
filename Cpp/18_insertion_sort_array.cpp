@@ -34,12 +34,8 @@ int main(){
     for (int i = 0; i < n; i++)
     {
         cout<<array[i];
-        if (i==n-1)
-        {
-            break;
-        }
         cout<<", ";
     }
-    cout<<"}";
+    cout<<"\b\b}";
     return 0;
 }

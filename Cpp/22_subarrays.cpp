@@ -19,13 +19,9 @@ int main(){
         for (int j = i; j < n; j++)
         {
             cout<<array[j];
-            if (j==n-1)
-            {
-                break;
-            }
             cout<<", ";
         }    
-        cout<<"}"<<endl;
+        cout<<"\b\b}"<<endl;
     }
 
     return 0;
