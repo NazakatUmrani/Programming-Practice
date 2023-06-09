@@ -38,6 +38,14 @@ class arrayADT{
                 length++;
             }
         }
+        void remove(int index){
+            if(length<size){
+                for(int i=index; i<length-1; i++){
+                    ptr[i]=ptr[i+1];
+                }
+                length--;
+            }
+        }
         ~arrayADT(){
             delete[] ptr;
             cout << "Array destroyed" << endl;
@@ -52,6 +60,7 @@ int main () {
     arr.append(6);
     arr.append(7);
     arr.insert(2,5);
+    arr.remove(7);
     arr.display();
     return 0;
 }
