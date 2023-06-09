@@ -30,7 +30,7 @@ class arrayADT{
             }
         }
         void insert(int index, int element){
-            if(length<size){
+            if(length<size && (index>-1 && index<=length)){
                 for(int i=length; i>index; i--){
                     ptr[i]=ptr[i-1];
                 }
@@ -39,7 +39,7 @@ class arrayADT{
             }
         }
         void remove(int index){
-            if(length<size){
+            if(index<length && index > -1){
                 for(int i=index; i<length-1; i++){
                     ptr[i]=ptr[i+1];
                 }
@@ -50,6 +50,22 @@ class arrayADT{
             for(int i=0; i<length; i++){
                 if(ptr[i] == element)
                     return i;
+            }
+            return -1;
+        }
+        int binarySearch(int key){
+            int low,high,mid;
+            low=0;
+            high=length-1;
+            while (low<high)
+            {
+                mid=(low+high)/2;
+                if(ptr[mid]==key)
+                    return mid;
+                else if(ptr[mid]<key)
+                    low = mid+1;
+                else
+                    high = mid-1;
             }
             return -1;
         }
@@ -67,7 +83,10 @@ int main () {
     arr.append(6);
     arr.append(7);
     arr.insert(2,5);
+    arr.display();
     arr.remove(7);
     arr.display();
+    cout << arr.linearSearch(4);
+    cout << arr.binarySearch(4);
     return 0;
 }
