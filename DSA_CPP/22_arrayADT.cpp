@@ -46,6 +46,13 @@ class arrayADT{
                 length--;
             }
         }
+        int linearSearch(int element){
+            for(int i=0; i<length; i++){
+                if(ptr[i] == element)
+                    return i;
+            }
+            return -1;
+        }
         ~arrayADT(){
             delete[] ptr;
             cout << "Array destroyed" << endl;
