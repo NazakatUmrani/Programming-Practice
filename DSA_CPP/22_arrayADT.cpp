@@ -27,16 +27,18 @@ class arrayADT{
         void rightShift();
         void leftRotate();
         void rightRotate();
+        bool isSorted();
+        void insertSorted(int);
 };
 int main () {
     arrayADT arr(10);
     arr.create();
     arr.display();
-    arr.append(4);
-    arr.append(5);
-    arr.append(6);
     arr.append(7);
-    arr.insert(2,5);
+    arr.append(8);
+    arr.append(9);
+    arr.append(10);
+    arr.insert(2,3);
     arr.display();
     arr.remove(7);
     arr.display();
@@ -54,6 +56,9 @@ int main () {
     arr.leftShift();
     arr.display();
     arr.rightShift();
+    arr.display();
+    cout << arr.isSorted()<<endl;
+    arr.insertSorted(1);
     arr.display();
     return 0;
 }
@@ -198,4 +203,21 @@ void arrayADT::rightRotate(){
     int temp = ptr[length-1];
     rightShift();
     ptr[0]=temp;
+}
+bool arrayADT::isSorted(){
+    for(int i=0; i<length-1; i++)
+        if(ptr[i]>ptr[i+1])
+            return false;
+    return true;
+}
+void arrayADT::insertSorted(int element){
+    if(length>=size)
+        return;
+    int i=length-1;
+    while(element<ptr[i]){
+        ptr[i+1]=ptr[i];
+        i--;
+    }
+    ptr[i+1]=element;
+    length++;
 }
