@@ -18,6 +18,8 @@ class arrayADT{
         void set(int, int);
         int max();
         int min();
+        int sum();
+        int avg();
 };
 int main () {
     arrayADT arr(10);
@@ -130,4 +132,13 @@ int arrayADT::min(){
         if(min>ptr[i])
             min = ptr[i];
     return min;
+}
+int arrayADT::sum(){
+    int sum=0;
+    for(int i=0; i<length; i++)
+        sum+=ptr[i];
+    return sum;
+}
+int arrayADT::avg(){
+    return sum()/length;
 }
