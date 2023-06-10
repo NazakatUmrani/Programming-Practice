@@ -25,6 +25,8 @@ class arrayADT{
         void reverseOld();
         void leftShift();
         void rightShift();
+        void leftRotate();
+        void rightRotate();
 };
 int main () {
     arrayADT arr(10);
@@ -44,6 +46,10 @@ int main () {
     arr.reverseOld();
     arr.display();
     arr.reverse();
+    arr.display();
+    arr.leftRotate();
+    arr.display();
+    arr.rightRotate();
     arr.display();
     arr.leftShift();
     arr.display();
@@ -182,4 +188,14 @@ void arrayADT::rightShift(){
     for(int i=length-1; i>0; i--)
         ptr[i]=ptr[i-1];
     ptr[0] = 0;
+}
+void arrayADT::leftRotate(){
+    int temp = ptr[0];
+    leftShift();
+    ptr[length-1]=temp;
+}
+void arrayADT::rightRotate(){
+    int temp = ptr[length-1];
+    rightShift();
+    ptr[0]=temp;
 }
