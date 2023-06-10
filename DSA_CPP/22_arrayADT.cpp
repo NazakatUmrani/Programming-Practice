@@ -16,6 +16,8 @@ class arrayADT{
         int binarySearch(int);
         int get(int);
         void set(int, int);
+        int max();
+        int min();
 };
 int main () {
     arrayADT arr(10);
@@ -110,4 +112,22 @@ int arrayADT::get(int index){
 void arrayADT::set(int index, int element){
     if(0<=index && index<length)
         ptr[index] = element;
+}
+int arrayADT::max(){
+    if(length<0)
+        return -1;
+    int max=ptr[0];
+    for(int i=1;i<length;i++)
+        if(max<ptr[i])
+            max = ptr[i];
+    return max;
+}
+int arrayADT::min(){
+    if(length<0)
+        return -1;
+    int min=ptr[0];
+    for(int i=1;i<length;i++)
+        if(min>ptr[i])
+            min = ptr[i];
+    return min;
 }
