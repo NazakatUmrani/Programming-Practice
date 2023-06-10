@@ -217,7 +217,7 @@ void arrayADT::insertSorted(int element){
     if(length>=size)
         return;
     int i=length-1;
-    while(element<ptr[i]){
+    while(element<ptr[i] && i>=0){
         ptr[i+1]=ptr[i];
         i--;
     }
