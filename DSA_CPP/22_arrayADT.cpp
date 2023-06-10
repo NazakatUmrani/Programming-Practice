@@ -23,6 +23,8 @@ class arrayADT{
         void swap(int&, int&);
         void reverse();
         void reverseOld();
+        void leftShift();
+        void rightShift();
 };
 int main () {
     arrayADT arr(10);
@@ -43,6 +45,10 @@ int main () {
     arr.display();
     arr.reverse();
     arr.display();
+    arr.leftShift();
+    arr.display();
+    arr.rightShift();
+    arr.display();
     return 0;
 }
 
@@ -55,9 +61,9 @@ arrayADT::~arrayADT(){
 }
 void arrayADT::create(){
     cout << "Enter number of elements: ";
-    cin >> this->length;
+    cin >> length;
     cout << "Enter the array elements: " << endl;
-    for (int i = 0; i < this->length; i++){
+    for (int i = 0; i < length; i++){
         cout << "Array element: " << i << " = " << flush;
         cin >> ptr[i];
     }
@@ -166,4 +172,14 @@ void arrayADT::reverseOld(){
     for(int i=0; i<length; i++)
         ptr[i] = temp[i];
     delete []temp;
+}
+void arrayADT::leftShift(){
+    for(int i=0; i<length-1; i++)
+        ptr[i]=ptr[i+1];
+    ptr[length-1] = 0;
+}
+void arrayADT::rightShift(){
+    for(int i=length-1; i>0; i--)
+        ptr[i]=ptr[i-1];
+    ptr[0] = 0;
 }
