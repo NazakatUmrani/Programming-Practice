@@ -5,7 +5,9 @@ class arrayADT{
     int *ptr;
     int size, length;
     public:
-        arrayADT(int size);
+        arrayADT();
+        arrayADT(int);
+        arrayADT(int*, int, int);
         ~arrayADT();
         void create();
         void display();
@@ -30,45 +32,33 @@ class arrayADT{
         bool isSorted();
         void insertSorted(int);
         void sortPosAndNeg();
+        void merge(const arrayADT&, const arrayADT&);
 };
 int main () {
-    arrayADT arr(10);
-    arr.create();
-    arr.display();
-    arr.append(7);
-    arr.append(8);
-    arr.append(9);
-    arr.append(10);
-    arr.insert(2,3);
-    arr.display();
-    arr.remove(7);
-    arr.display();
-    cout << arr.linearSearch(4) << endl;
-    cout << arr.binarySearch(4) << endl;
-    arr.display();
-    arr.reverseOld();
-    arr.display();
-    arr.reverse();
-    arr.display();
-    arr.leftRotate();
-    arr.display();
-    arr.rightRotate();
-    arr.display();
-    arr.leftShift();
-    arr.display();
-    arr.rightShift();
-    arr.display();
-    cout << arr.isSorted()<<endl;
-    arr.insertSorted(1);
-    arr.display();
-    arr.sortPosAndNeg();
-    arr.display();
+    int array1[]={1,5,34,50,56};
+    arrayADT arr1(array1,10,5);
+    int array2[]={6,7,52,54,74};
+    arrayADT arr2(array2,10,5);
+    arrayADT arr3;
+    arr3.merge(arr1,arr2);
+    arr3.display();
     return 0;
 }
-
+arrayADT::arrayADT(){
+    size=0;
+    length=0;
+    ptr=NULL;
+}
 arrayADT::arrayADT(int size){
     this->size = size;
     ptr = new int[size];
+}
+arrayADT::arrayADT(int* a, int size, int length){
+    ptr = new int[size];
+    this->size=size;
+    this->length=length;
+    for(int i=0; i<length; i++)
+        ptr[i]=a[i];
 }
 arrayADT::~arrayADT(){
     delete[] ptr;
@@ -227,9 +217,24 @@ void arrayADT::insertSorted(int element){
 void arrayADT::sortPosAndNeg(){
     int i=0,j=length-1;
     while(i<j){
-        while(ptr[i]<0){i++;}
-        while(ptr[j]>=0){j--;}
-        if(i<j)
-            swap(ptr[i],ptr[j]);
+        while(ptr[i]<0) i++;
+        while(ptr[j]>=0) j--;
+        if(i<j) swap(ptr[i],ptr[j]);
     }
+}
+void arrayADT::merge(const arrayADT& a,const arrayADT& b){
+    int i=0,j=0,k=0;
+    this->size = a.size+b.size;
+    this->length = a.length+b.length;
+    ptr = new int[size];
+    while (i<a.length && j<b.length){
+        if(a.ptr[i]<b.ptr[j])
+            this->ptr[k++]=a.ptr[i++];
+        else
+            this->ptr[k++]=b.ptr[j++];
+    }
+    while(i<a.length)
+        this->ptr[k++]=a.ptr[i++];
+    while(j<b.length)
+        this->ptr[k++]=b.ptr[j++];
 }
