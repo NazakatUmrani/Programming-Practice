@@ -20,6 +20,9 @@ class arrayADT{
         int min();
         int sum();
         int avg();
+        void swap(int&, int&);
+        void reverse();
+        void reverseOld();
 };
 int main () {
     arrayADT arr(10);
@@ -33,8 +36,13 @@ int main () {
     arr.display();
     arr.remove(7);
     arr.display();
-    cout << arr.linearSearch(4);
-    cout << arr.binarySearch(4);
+    cout << arr.linearSearch(4) << endl;
+    cout << arr.binarySearch(4) << endl;
+    arr.display();
+    arr.reverseOld();
+    arr.display();
+    arr.reverse();
+    arr.display();
     return 0;
 }
 
@@ -44,7 +52,6 @@ arrayADT::arrayADT(int size){
 }
 arrayADT::~arrayADT(){
     delete[] ptr;
-    cout << "Array destroyed" << endl;
 }
 void arrayADT::create(){
     cout << "Enter number of elements: ";
@@ -56,10 +63,11 @@ void arrayADT::create(){
     }
 }
 void arrayADT::display(){
+    cout << "{";
     for (int i = 0; i < length; i++){
-        cout << ptr[i] << " ";
+        cout << ptr[i] << ", ";
     }
-    cout<<"\b\n";
+    cout<<"\b\b}\n";
 }
 void arrayADT::append(int element){
     if(length<size){
@@ -141,4 +149,21 @@ int arrayADT::sum(){
 }
 int arrayADT::avg(){
     return sum()/length;
+}
+void arrayADT::swap(int& a, int& b){
+    int temp = a;
+    a = b;
+    b = temp;
+}
+void arrayADT::reverse(){
+    for(int i=0,j=length-1; i<j; i++,j--)
+        swap(ptr[i],ptr[j]);
+}
+void arrayADT::reverseOld(){
+    int *temp = new int[length];
+    for(int i=0,j=length-1; i<length; i++,j--)
+        temp[i] = ptr[j];
+    for(int i=0; i<length; i++)
+        ptr[i] = temp[i];
+    delete []temp;
 }
