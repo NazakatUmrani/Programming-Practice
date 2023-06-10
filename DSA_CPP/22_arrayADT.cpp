@@ -29,6 +29,7 @@ class arrayADT{
         void rightRotate();
         bool isSorted();
         void insertSorted(int);
+        void sortPosAndNeg();
 };
 int main () {
     arrayADT arr(10);
@@ -59,6 +60,8 @@ int main () {
     arr.display();
     cout << arr.isSorted()<<endl;
     arr.insertSorted(1);
+    arr.display();
+    arr.sortPosAndNeg();
     arr.display();
     return 0;
 }
@@ -220,4 +223,13 @@ void arrayADT::insertSorted(int element){
     }
     ptr[i+1]=element;
     length++;
+}
+void arrayADT::sortPosAndNeg(){
+    int i=0,j=length-1;
+    while(i<j){
+        while(ptr[i]<0){i++;}
+        while(ptr[j]>=0){j--;}
+        if(i<j)
+            swap(ptr[i],ptr[j]);
+    }
 }
