@@ -21,7 +21,7 @@ class arrayADT{
         int max();
         int min();
         int sum();
-        int avg();
+        float avg();
         void swap(int&, int&);
         void reverse();
         void reverseOld();
@@ -166,7 +166,7 @@ int arrayADT::sum(){
         sum+=ptr[i];
     return sum;
 }
-int arrayADT::avg(){
+float arrayADT::avg(){
     return sum()/length;
 }
 void arrayADT::swap(int& a, int& b){
@@ -337,8 +337,8 @@ void arrayADT::menu(){
             cout<<"Sum of all elements is: "<<i<<endl;
             break;
         case 14:
-            i=this->avg();
-            cout<<"Average of all elements is: "<<i<<endl;
+            float a=this->avg();
+            cout<<"Average of all elements is: "<<a<<endl;
             break;
         case 15:
             this->reverse();
