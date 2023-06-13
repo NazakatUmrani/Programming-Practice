@@ -33,15 +33,17 @@ class arrayADT{
         void insertSorted(int);
         void sortPosAndNeg();
         void merge(const arrayADT&, const arrayADT&);
+        void menu();
 };
 int main () {
-    int array1[]={1,5,34,50,56};
-    arrayADT arr1(array1,10,5);
-    int array2[]={6,7,52,54,74};
-    arrayADT arr2(array2,10,5);
-    arrayADT arr3;
-    arr3.merge(arr1,arr2);
-    arr3.display();
+    arrayADT arr1;
+    char choice;
+    do{
+        system("clear");
+        arr1.menu();
+        cout<<"do you want to continue y for yes: ";
+        cin>>choice;
+    }while(choice=='y');
     return 0;
 }
 arrayADT::arrayADT(){
@@ -64,15 +66,22 @@ arrayADT::~arrayADT(){
     delete[] ptr;
 }
 void arrayADT::create(){
+    cout << "Enter base size of array: ";
+    cin >> size;
+    if(ptr!=NULL)
+        delete []ptr;
+    ptr=new int[size];
     cout << "Enter number of elements: ";
     cin >> length;
     cout << "Enter the array elements: " << endl;
     for (int i = 0; i < length; i++){
-        cout << "Array element: " << i << " = " << flush;
+        cout << "Array element: " << i+1 << " = " << flush;
         cin >> ptr[i];
     }
 }
 void arrayADT::display(){
+    if(length==0)
+        return;
     cout << "{";
     for (int i = 0; i < length; i++){
         cout << ptr[i] << ", ";
@@ -112,7 +121,7 @@ int arrayADT::binarySearch(int key){
     int low,high,mid;
     low=0;
     high=length-1;
-    while (low<high)
+    while (low<=high)
     {
         mid=(low+high)/2;
         if(ptr[mid]==key)
@@ -125,9 +134,9 @@ int arrayADT::binarySearch(int key){
     return -1;
 }
 int arrayADT::get(int index){
-    if(index<0 && index>=length)
-        return -1;
-    return ptr[index];
+    if(0<=index && index<length)
+        return ptr[index];
+    return -1;
 }
 void arrayADT::set(int index, int element){
     if(0<=index && index<length)
@@ -226,7 +235,7 @@ void arrayADT::merge(const arrayADT& a,const arrayADT& b){
     int i=0,j=0,k=0;
     this->size = a.size+b.size;
     this->length = a.length+b.length;
-    ptr = new int[size];
+    this->ptr = new int[size];
     while (i<a.length && j<b.length){
         if(a.ptr[i]<b.ptr[j])
             this->ptr[k++]=a.ptr[i++];
@@ -237,4 +246,119 @@ void arrayADT::merge(const arrayADT& a,const arrayADT& b){
         this->ptr[k++]=a.ptr[i++];
     while(j<b.length)
         this->ptr[k++]=b.ptr[j++];
+}
+void arrayADT::menu(){
+    int choice,e,i;
+    cout << "0 for Displaying array\n";
+    cout << "1 for Creating an array\n2 for appending an element\n";
+    cout << "3 for inserting an element\n4 for removing an element\n";
+    cout << "5 for inserting element in sorted way\n6 for checking is array sorted\n";
+    cout << "7 for searching an element (LS)\n8 for searching an element (BS)\n";
+    cout << "9 for getting an element by index\n10 for setting an element at a index\n";
+    cout << "11 for finding maximum element\n12 for finding minimum element\n";
+    cout << "13 for calculating sum of elements\n14 for calculating avg of all elements\n";
+    cout << "15 for reversing elements\n";
+    cout << "16 for left shift elements\n17 for right shift elements\n";
+    cout << "18 for left rotate elements\n19 for right rotate elements\n";
+    cout << "20 for sorting positive and negative integers\n";
+    cout << "21 for Exit\n";
+    cin >> choice;
+    switch(choice){
+        case 0:
+            this->display();
+            break;
+        case 1:
+            this->create();
+            break;
+        case 2:
+            cout << "Enter element to append: ";
+            cin >> e;
+            this->append(e);
+            break;
+        case 3:
+            cout << "Enter index and element insert: ";
+            cin >> i >> e;
+            this->insert(i,e);
+            break;
+        case 4:
+            cout << "Enter index to remove element: ";
+            cin >> i;
+            this->remove(i);
+            break;
+        case 5:
+            cout << "Enter element to insert in sorted way: ";
+            cin >> e;
+            this->insertSorted(e);
+            break;
+        case 6:
+            if(this->isSorted())
+                cout<<"Array is sorted\n";
+            else
+                cout<<"Array is not Sorted\n";
+            break;
+        case 7:
+            cout << "Enter element to search: ";
+            cin >> e;
+            i = this->linearSearch(e);
+            if(i!=-1)
+                cout<<"Element found at index: "<<i<<endl;
+            else
+                cout<<"Element is not present in list\n";
+            break;
+        case 8:
+            cout << "Enter element to search: ";
+            cin >> e;
+            i = this->binarySearch(e);
+            if(i!=-1)
+                cout<<"Element found at index: "<<i<<endl;
+            else
+                cout<<"Element is not present in list\n";
+            break;
+        case 9:
+            cout << "Enter index to get element: ";
+            cin >> i;
+            cout<<"Element at "<<i<<" is: "<<this->get(i)<<endl;
+            break;
+        case 10:
+            cout << "Enter index and element to set element: ";
+            cin >> i >> e;
+            this->set(i,e);
+            break;
+        case 11:
+            i=this->max();
+            cout<<"Element max is: "<<i<<endl;
+            break;
+        case 12:
+            i=this->min();
+            cout<<"Element min is: "<<i<<endl;
+            break;
+        case 13:
+            i=this->sum();
+            cout<<"Sum of all elements is: "<<i<<endl;
+            break;
+        case 14:
+            i=this->avg();
+            cout<<"Average of all elements is: "<<i<<endl;
+            break;
+        case 15:
+            this->reverse();
+            break;
+        case 16:
+            this->leftShift();
+            break;
+        case 17:
+            this->rightShift();
+            break;
+        case 18:
+            this->leftRotate();
+            break;
+        case 19:
+            this->rightRotate();
+            break;
+        case 20:
+            this->sortPosAndNeg();
+            break;
+        case 21:
+            break;
+    }
 }
