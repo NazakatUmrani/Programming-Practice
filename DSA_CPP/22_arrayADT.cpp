@@ -2,8 +2,9 @@
 using namespace std;
 
 class arrayADT{
-    int *ptr;
-    int size, length;
+    protected:
+        int *ptr;
+        int size, length;
     public:
         arrayADT();
         arrayADT(int);
@@ -35,17 +36,17 @@ class arrayADT{
         void merge(const arrayADT&, const arrayADT&);
         void menu();
 };
-int main () {
-    arrayADT arr1;
-    char choice;
-    do{
-        system("clear");
-        arr1.menu();
-        cout<<"do you want to continue y for yes: ";
-        cin>>choice;
-    }while(choice=='y');
-    return 0;
-}
+// int main () {
+//     arrayADT arr1;
+//     char choice;
+//     do{
+//         system("clear");
+//         arr1.menu();
+//         cout<<"do you want to continue y for yes: ";
+//         cin>>choice;
+//     }while(choice=='y');
+//     return 0;
+// }
 arrayADT::arrayADT(){
     size=0;
     length=0;
@@ -66,16 +67,16 @@ arrayADT::~arrayADT(){
     delete[] ptr;
 }
 void arrayADT::create(){
-    cout << "Enter base size of array: ";
+    cout << "Enter base size: ";
     cin >> size;
     if(ptr!=NULL)
         delete []ptr;
     ptr=new int[size];
     cout << "Enter number of elements: ";
     cin >> length;
-    cout << "Enter the array elements: " << endl;
+    cout << "Enter the elements: " << endl;
     for (int i = 0; i < length; i++){
-        cout << "Array element: " << i+1 << " = " << flush;
+        cout << "Element: " << i+1 << " = " << flush;
         cin >> ptr[i];
     }
 }
@@ -89,11 +90,28 @@ void arrayADT::display(){
     cout<<"\b\b}\n";
 }
 void arrayADT::append(int element){
-    if(length<size){
-        ptr[length++]=element;
+    if(length>=size){
+        int *temp = new int[size+20];
+        for(int i=0; i<length; i++){
+            temp[i]=ptr[i];
+        }
+        delete[] ptr;
+        ptr = temp;
+        size += 20;
     }
+    if(length<size)
+        ptr[length++]=element;
 }
 void arrayADT::insert(int index, int element){
+    if(length>=size && (-1<index && index<=length)){
+        int *temp = new int[size+20];
+        for(int i=0; i<length; i++){
+            temp[i]=ptr[i];
+        }
+        delete[] ptr;
+        ptr = temp;
+        size+=20;
+    }
     if(length<size && (index>-1 && index<=length)){
         for(int i=length; i>index; i--){
             ptr[i]=ptr[i-1];
@@ -213,8 +231,15 @@ bool arrayADT::isSorted(){
     return true;
 }
 void arrayADT::insertSorted(int element){
-    if(length>=size)
-        return;
+    if(length>=size){
+        int *temp = new int[size+20];
+        for(int i=0; i<length; i++){
+            temp[i]=ptr[i];
+        }
+        delete[] ptr;
+        ptr = temp;
+        size+=20;
+    }
     int i=length-1;
     while(element<ptr[i] && i>=0){
         ptr[i+1]=ptr[i];
@@ -337,8 +362,7 @@ void arrayADT::menu(){
             cout<<"Sum of all elements is: "<<i<<endl;
             break;
         case 14:
-            float a=this->avg();
-            cout<<"Average of all elements is: "<<a<<endl;
+            cout<<"Average of all elements is: "<<this->avg()<<endl;
             break;
         case 15:
             this->reverse();
