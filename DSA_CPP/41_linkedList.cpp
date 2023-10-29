@@ -24,6 +24,9 @@ class LinkedList{
         int min();
         int search(T key);
         void add(T x);
+        bool isSorted();
+        void insertSorted(T x);
+        void sort();
 };
 
 template <class T>
@@ -185,5 +188,69 @@ void LinkedList<T>::add(T x){
     }else{
         last->next = t;
         last = t;
+    }
+}
+
+//Checks if linked list is sorted or not
+template <class T>
+bool LinkedList<T>::isSorted(){
+    Node<T> *p = first->next;
+    int x = first->data;
+    while(p){
+        if(x > p->data){
+            std::cout<<"Linked list is not sorted\n";
+            return false;
+        }
+        x = p->data;
+        p = p->next;
+    }
+    std::cout<<"Linked list is sorted\n";
+    return true;
+}
+
+//Inserts element in sorted linked list
+template <class T>
+void LinkedList<T>::insertSorted(T x){
+    if(!isSorted()){
+        std::cout<<"Linked list is not sorted, can't insert element\n";
+        return;
+    }
+    Node<T> *p = first, *q = NULL, *t;
+    t = new Node<T>;
+    t->data = x;
+    t->next = NULL;
+    if(first == NULL){
+        first = t;
+    }else{
+        while(p && p->data < x){
+            q = p;
+            p = p->next;
+        }
+        if(p == first){
+            t->next = first;
+            first = t;
+        }else{
+            t->next = q->next;
+            q->next = t;
+        }
+    }
+}
+
+//Sorts linked list
+template <class T>
+void LinkedList<T>::sort(){
+    Node<T> *p = first, *q = NULL;
+    int temp;
+    while(p){
+        q = p->next;
+        while(q){
+            if(p->data > q->data){
+                temp = p->data;
+                p->data = q->data;
+                q->data = temp;
+            }
+            q = q->next;
+        }
+        p = p->next;
     }
 }
