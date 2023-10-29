@@ -1,15 +1,15 @@
-//Class Node
 template <class T>
+//Class Node
 class Node{
     public:
         T data;
         Node *next;
 };
 
-//Class LinkedList
 template <class T>
+//Class LinkedList
 class LinkedList{
-    Node<T> *first;
+    Node<T> *first, *last;
     int size;
     public:
         LinkedList();
@@ -22,16 +22,18 @@ class LinkedList{
         int sum();
         int max();
         int min();
+        int search(T key);
+        void add(T x);
 };
 
+template <class T>
 //Default constructor
-template <class T>
-LinkedList<T>::LinkedList() : first(NULL), size(0){};
+LinkedList<T>::LinkedList() : first(NULL), last(NULL), size(0){};
 
-//Parameterized constructor
 template <class T>
+//Parameterized constructor
 LinkedList<T>::LinkedList(T *A, int n){
-    Node<T> *last, *t;
+    Node<T> *t;
     first = new Node<T>;
     first->data = A[0];
     first->next = NULL;
@@ -45,8 +47,8 @@ LinkedList<T>::LinkedList(T *A, int n){
     }
 }
 
-//Destructor which travels and deletes all nodes, in last next is NULL
 template <class T>
+//Destructor which travels and deletes all nodes, in last next is NULL
 LinkedList<T>::~LinkedList(){
     Node<T> *p = first;
     while(first){
@@ -56,8 +58,8 @@ LinkedList<T>::~LinkedList(){
     }
 }
 
-//Display all elements in linked list
 template <class T>
+//Display all elements in linked list
 void LinkedList<T>::display(){
     Node<T> *p = first;
     std::cout<<"[";
@@ -69,6 +71,7 @@ void LinkedList<T>::display(){
 }
 
 template <class T>
+//Insert element x at index
 void LinkedList<T>::insert(int index, T x){
     Node<T> *t, *p = first;
     if(index < 0 || index > size){
@@ -91,6 +94,7 @@ void LinkedList<T>::insert(int index, T x){
 }
 
 template <class T>
+//Remove element at index
 void LinkedList<T>::remove(int index){
     Node<T> *p = first, *q = NULL;
     if(index < 0 || index > size){
@@ -110,14 +114,14 @@ void LinkedList<T>::remove(int index){
     }
 }
 
-//Returns length of linked list
 template <class T>
+//Returns length of linked list
 int LinkedList<T>::length(){
     return size;
 }
 
-//Returns sum of all elements in linked list
 template <class T>
+//Returns sum of all elements in linked list, if list is empty returns 0
 int LinkedList<T>::sum(){
     Node<T> *p = first;
     int sum = 0;
@@ -128,8 +132,8 @@ int LinkedList<T>::sum(){
     return sum;
 }
 
-//Returns max element in linked list
 template <class T>
+//Returns max element in linked list if list is empty returns 0
 int LinkedList<T>::max(){
     Node<T> *p = first->next;
     int max = first->data;
@@ -141,8 +145,8 @@ int LinkedList<T>::max(){
     return max;
 }
 
-//Returns min element in linked list
 template <class T>
+//Returns min element in linked list, if list is empty returns 0
 int LinkedList<T>::min(){
     Node<T> *p = first->next;
     int min = first->data;
@@ -152,4 +156,34 @@ int LinkedList<T>::min(){
         p = p->next;
     }
     return min;
+}
+
+template <class T>
+//Returns index of key if found, else returns -1
+int LinkedList<T>::search(T key){
+    Node<T> *p = first;
+    int index = 0;
+    while(p){
+        if(p->data == key)
+            return index;
+        p = p->next;
+        index++;
+    }
+    return -1;
+}
+
+template <class T>
+//Adds element at the end of linked list
+void LinkedList<T>::add(T x){
+    Node<T> *t;
+    t = new Node<T>;
+    t->data = x;
+    t->next = NULL;
+    if(first == NULL){
+        first = t;
+        last = t;
+    }else{
+        last->next = t;
+        last = t;
+    }
 }
