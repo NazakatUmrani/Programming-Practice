@@ -27,6 +27,9 @@ class LinkedList{
         bool isSorted();
         void insertSorted(T x);
         void sort();
+        void removeDuplicatesInSorted();
+        void reverseData();
+        void reverseLinks();
 };
 
 template <class T>
@@ -253,4 +256,52 @@ void LinkedList<T>::sort(){
         }
         p = p->next;
     }
+}
+
+template <class T>
+//Removes duplicates from a sorted Linked List
+void LinkedList<T>::removeDuplicatesInSorted(){
+    Node<T> * p=first, *q=first->next;
+    while(q){
+        if(p->data != q->data){
+            p=q;
+            q=q->next;
+        }
+        else{
+            p->next=q->next;
+            delete q;
+            q=p->next;
+        }
+    }
+}
+
+template <class T>
+//Reverses data in linked list using array, space costly
+void LinkedList<T>::reverseData(){
+    int *A = new int[size];
+    Node<T> *p = first;
+    int i = 0;
+    while(p){
+        A[i++] = p->data;
+        p = p->next;
+    }
+    p = first;
+    i--;
+    while(p){
+        p->data = A[i--];
+        p = p->next;
+    }
+}
+
+template <class T>
+//Reverses links in linked list
+void LinkedList<T>::reverseLinks(){
+    Node<T> *p = first, *q = NULL, *r = NULL;
+    while(p){
+        r = q;
+        q = p;
+        p = p->next;
+        q->next = r;
+    }
+    first = q;
 }
