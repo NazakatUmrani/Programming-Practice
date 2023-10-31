@@ -31,6 +31,9 @@ class LinkedList{
         void reverseData();
         void reverseLinks();
         void recursiveReverse(Node<T> *q, Node<T> *p);
+        void concatenate(LinkedList<T> first, LinkedList<T> second);
+        void merge(LinkedList<T> first, LinkedList<T> second);
+        bool isLoop();
 };
 
 template <class T>
@@ -316,4 +319,64 @@ void LinkedList<T>::recursiveReverse(Node<T> *q, Node<T> *p){
     }else{
         first = q;
     }
+}
+
+template <class T>
+//Concatenates two linked lists in one linked list
+void LinkedList<T>::concatenate(LinkedList<T> first, LinkedList<T> second){
+    Node<T> *p = first.first;
+    Node<T> *q = second.first;
+    Node<T> *t = NULL;
+    this->first = p;
+    while(p->next){
+        p = p->next;
+    }
+    p->next = q;
+    this->last = second.last;
+    this->size = first.size + second.size;
+}
+
+template <class T>
+//Merges two sorted linked lists in one sorted linked list
+void LinkedList<T>::merge(LinkedList<T> first, LinkedList<T> second){
+    Node<T> *p = first.first;
+    Node<T> *q = second.first;
+    Node<T> *last = NULL;
+    if(p->data < q->data){
+        this->first = last = p;
+        p = p->next;
+        last->next = NULL;
+    }else{ll
+        this->first = last = q;
+        q = q->next;
+        last->next = NULL;
+    }
+    while(p && q){
+        if(p->data < q->data){
+            last->next = p;
+            last = p;
+            p = p->next;
+            last->next = NULL;
+        }else{
+            last->next = q;
+            last = q;
+            q = q->next;
+            last->next = NULL;
+        }
+    }
+    if(p){
+        last->next = p;
+    }
+    if(q){
+        last->next = q;
+    }
+}
+
+template <class T>
+//Checks if linked list is looped or not
+bool LinkedList<T>::isLoop(){
+    if(last->next == NULL)
+        return false;
+    else
+        return true;
 }
