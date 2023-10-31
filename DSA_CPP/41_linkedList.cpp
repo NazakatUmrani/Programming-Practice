@@ -30,6 +30,7 @@ class LinkedList{
         void removeDuplicatesInSorted();
         void reverseData();
         void reverseLinks();
+        void recursiveReverse(Node<T> *q, Node<T> *p);
 };
 
 template <class T>
@@ -304,4 +305,15 @@ void LinkedList<T>::reverseLinks(){
         q->next = r;
     }
     first = q;
+}
+
+template <class T>
+//Reverses links in linked list recursively
+void LinkedList<T>::recursiveReverse(Node<T> *q, Node<T> *p){
+    if(p){
+        recursiveReverse(p, p->next);
+        p->next = q;
+    }else{
+        first = q;
+    }
 }
