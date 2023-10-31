@@ -376,7 +376,7 @@ template <class T>
 //Checks if linked list is looped or not
 bool LinkedList<T>::isLoop(){
     if(last->next == NULL)
-        return false;
-    else
         return true;
+    else
+        return false;
 }
