@@ -359,9 +359,7 @@ void CircularLinkedList<T>::concatenate(CircularLinkedList<T> first, CircularLin
     Node<T> *q = second.head;
     Node<T> *t = NULL;
     this->head = p;
-    do{
-        p = p->next;
-    }while(p->next!=first.head);
+    p = last;
     p->next = q;
     this->last = second.last;
     this->last->next = first.head;

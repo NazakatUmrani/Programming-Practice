@@ -3,18 +3,27 @@ template <class T>
 class Node{
     public:
         T data;
-        Node *next;
+        Node *next, *back;
+        Node(){
+            next = NULL;
+            back = NULL;
+        }
+        Node(T x){
+            data = x;
+            next = NULL;
+            back = NULL;
+        }
 };
 
 template <class T>
-//Class LinkedList
-class LinkedList{
+//Class DoublyLinkedList
+class DoublyLinkedList{
     Node<T> *first, *last;
     int size;
     public:
-        LinkedList();
-        LinkedList(T *A, int n);
-        ~LinkedList();
+        DoublyLinkedList();
+        DoublyLinkedList(T *A, int n);
+        ~DoublyLinkedList();
         void display();
         void insert(int index, T x);
         void remove(int index);
@@ -31,28 +40,25 @@ class LinkedList{
         void reverseData();
         void reverseLinks();
         void recursiveReverse(Node<T> *q, Node<T> *p);
-        void concatenate(LinkedList<T> first, LinkedList<T> second);
-        void merge(LinkedList<T> first, LinkedList<T> second);
+        void concatenate(DoublyLinkedList<T> first, DoublyLinkedList<T> second);
+        void merge(DoublyLinkedList<T> first, DoublyLinkedList<T> second);
         bool isLoop();
 };
 
 template <class T>
 //Default constructor
-LinkedList<T>::LinkedList() : first(NULL), last(NULL), size(0){};
+DoublyLinkedList<T>::DoublyLinkedList() : first(NULL), last(NULL), size(0){};
 
 template <class T>
 //Parameterized constructor
-LinkedList<T>::LinkedList(T *A, int n){
+DoublyLinkedList<T>::DoublyLinkedList(T *A, int n){
     Node<T> *t;
-    first = new Node<T>;
-    first->data = A[0];
-    first->next = NULL;
+    first = new Node<T>(A[0]);
     last = first;
     for(int i=1; i<n; i++){
-        t = new Node<T>;
-        t->data = A[i];
-        t->next = NULL;
+        t = new Node<T>(A[i]);
         last->next = t;
+        t->back = last;
         last = t;
     }
     size=n;
@@ -60,7 +66,7 @@ LinkedList<T>::LinkedList(T *A, int n){
 
 template <class T>
 //Destructor which travels and deletes all nodes, in last next is NULL
-LinkedList<T>::~LinkedList(){
+DoublyLinkedList<T>::~DoublyLinkedList(){
     Node<T> *p = first;
     while(first){
         first = first->next;
@@ -72,7 +78,7 @@ LinkedList<T>::~LinkedList(){
 
 template <class T>
 //Display all elements in linked list
-void LinkedList<T>::display(){
+void DoublyLinkedList<T>::display(){
     Node<T> *p = first;
     std::cout<<"[";
     while(p){
@@ -84,23 +90,25 @@ void LinkedList<T>::display(){
 
 template <class T>
 //Insert element x at index
-void LinkedList<T>::insert(int index, T x){
+void DoublyLinkedList<T>::insert(int index, T x){
     Node<T> *t, *p = first;
     if(index < 0 || index > size){
         std::cout<<"Index out of range, Can't add element at "<<index<<"\n";
         return;
     }
-    t = new Node<T>;
-    t->data = x;
-    t->next = NULL;
+    t = new Node<T>(x);
     if(index == 0){
         t->next = first;
+        first->back = t;
         first = t;
     }else{
         for(int i=0; i<index-1; i++){
             p = p->next;
         }
         t->next = p->next;
+        t->back = p;
+        if(p->next)
+            p->next->back = t;
         p->next = t;
     }
     size++;
@@ -108,7 +116,7 @@ void LinkedList<T>::insert(int index, T x){
 
 template <class T>
 //Remove element at index
-void LinkedList<T>::remove(int index){
+void DoublyLinkedList<T>::remove(int index){
     Node<T> *p = first, *q = NULL;
     if(index < 0 || index > size){
         std::cout<<"Index out of range, Can't remove element at "<<index<<"\n";
@@ -127,6 +135,8 @@ void LinkedList<T>::remove(int index){
         }
         q = p->next;
         p->next = q->next;
+        if(q->next)
+            q->next->back = p;
         delete q;
     }
     size--;
@@ -134,13 +144,13 @@ void LinkedList<T>::remove(int index){
 
 template <class T>
 //Returns length of linked list
-int LinkedList<T>::length(){
+int DoublyLinkedList<T>::length(){
     return size;
 }
 
 template <class T>
 //Returns sum of all elements in linked list, if list is empty returns 0
-T LinkedList<T>::sum(){
+T DoublyLinkedList<T>::sum(){
     Node<T> *p = first;
     T sum = 0;
     while(p){
@@ -152,7 +162,7 @@ T LinkedList<T>::sum(){
 
 template <class T>
 //Returns max element in linked list if list is empty returns 0
-T LinkedList<T>::max(){
+T DoublyLinkedList<T>::max(){
     Node<T> *p = first->next;
     T max = first->data;
     while(p){
@@ -165,7 +175,7 @@ T LinkedList<T>::max(){
 
 template <class T>
 //Returns min element in linked list, if list is empty returns 0
-T LinkedList<T>::min(){
+T DoublyLinkedList<T>::min(){
     Node<T> *p = first->next;
     T min = first->data;
     while(p){
@@ -178,7 +188,7 @@ T LinkedList<T>::min(){
 
 template <class T>
 //Returns index of key if found, else returns -1
-int LinkedList<T>::search(T key){
+int DoublyLinkedList<T>::search(T key){
     Node<T> *p = first;
     int index = 0;
     while(p){
@@ -192,15 +202,14 @@ int LinkedList<T>::search(T key){
 
 template <class T>
 //Adds element at the end of linked list
-void LinkedList<T>::add(T x){
-    Node<T> *t = new Node<T>;
-    t->data = x;
-    t->next = NULL;
+void DoublyLinkedList<T>::add(T x){
+    Node<T> *t = new Node<T>(x);
     if(first == NULL){
         first = t;
         last = t;
     }else{
         last->next = t;
+        t->back = last;
         last = t;
     }
     size++;
@@ -208,7 +217,7 @@ void LinkedList<T>::add(T x){
 
 //Checks if linked list is sorted or not
 template <class T>
-bool LinkedList<T>::isSorted(){
+bool DoublyLinkedList<T>::isSorted(){
     Node<T> *p = first->next;
     T x = first->data;
     while(p){
@@ -225,28 +234,28 @@ bool LinkedList<T>::isSorted(){
 
 //Inserts element in sorted linked list
 template <class T>
-void LinkedList<T>::insertSorted(T x){
+void DoublyLinkedList<T>::insertSorted(T x){
     if(!isSorted()){
         std::cout<<"Linked list is not sorted, can't insert element\n";
         return;
     }
-    Node<T> *p = first, *q = NULL, *t;
-    t = new Node<T>;
-    t->data = x;
-    t->next = NULL;
+    Node<T> *p = first, *t;
+    t = new Node<T>(x);
     if(first == NULL){
         first = t;
     }else{
         while(p && p->data < x){
-            q = p;
             p = p->next;
         }
         if(p == first){
             t->next = first;
+            first->back = t;
             first = t;
         }else{
-            t->next = q->next;
-            q->next = t;
+            p = p->back;
+            t->next = p->next;
+            t->back = p;
+            p->next = t;
         }
     }
     size++;
@@ -254,7 +263,7 @@ void LinkedList<T>::insertSorted(T x){
 
 //Sorts linked list
 template <class T>
-void LinkedList<T>::sort(){
+void DoublyLinkedList<T>::sort(){
     Node<T> *p = first, *q = NULL;
     int temp;
     while(p){
@@ -273,7 +282,7 @@ void LinkedList<T>::sort(){
 
 template <class T>
 //Removes duplicates from a sorted Linked List
-void LinkedList<T>::removeDuplicatesInSorted(){
+void DoublyLinkedList<T>::removeDuplicatesInSorted(){
     Node<T> *p=first, *q=first->next;
     if(size==0){
         std::cout<<"Linked list is empty, can't remove duplicates\n";
@@ -294,36 +303,33 @@ void LinkedList<T>::removeDuplicatesInSorted(){
 }
 
 template <class T>
-//Reverses data in linked list using array, space costly
-void LinkedList<T>::reverseData(){
+//Reverses data in linked list
+void DoublyLinkedList<T>::reverseData(){
     if(size==0){
         std::cout<<"Linked list is empty, can't reverse data\n";
         return;
     }
-    T *A = new T[size];
-    Node<T> *p = first;
-    int i = 0;
-    while(p){
-        A[i++] = p->data;
+    Node<T> *p = first, *q = last;
+    int n = size/2;
+    while(n--){
+        T temp = p->data;
+        p->data = q->data;
+        q->data = temp;
         p = p->next;
-    }
-    p = first;
-    i--;
-    while(p){
-        p->data = A[i--];
-        p = p->next;
+        q = q->back;
     }
 }
 
 template <class T>
 //Reverses links in linked list
-void LinkedList<T>::reverseLinks(){
+void DoublyLinkedList<T>::reverseLinks(){
     Node<T> *p = first, *q = NULL, *r = NULL;
     while(p){
         r = q;
         q = p;
         p = p->next;
         q->next = r;
+        q->back = p;
     }
     last = first;
     first = q;
@@ -331,10 +337,11 @@ void LinkedList<T>::reverseLinks(){
 
 template <class T>
 //Reverses links in linked list recursively
-void LinkedList<T>::recursiveReverse(Node<T> *q, Node<T> *p){
+void DoublyLinkedList<T>::recursiveReverse(Node<T> *q, Node<T> *p){
     if(p){
         recursiveReverse(p, p->next);
         p->next = q;
+        p->back = q->next;
     }else{
         first = q;
     }
@@ -342,20 +349,21 @@ void LinkedList<T>::recursiveReverse(Node<T> *q, Node<T> *p){
 
 template <class T>
 //Concatenates two linked lists in one linked list
-void LinkedList<T>::concatenate(LinkedList<T> first, LinkedList<T> second){
+void DoublyLinkedList<T>::concatenate(DoublyLinkedList<T> first, DoublyLinkedList<T> second){
     Node<T> *p = first.first;
     Node<T> *q = second.first;
     Node<T> *t = NULL;
     this->first = p;
     p = last;
     p->next = q;
+    q->back = p;
     this->last = second.last;
     this->size = first.size + second.size;
 }
 
 template <class T>
 //Merges two sorted linked lists in one sorted linked list
-void LinkedList<T>::merge(LinkedList<T> first, LinkedList<T> second){
+void DoublyLinkedList<T>::merge(DoublyLinkedList<T> first, DoublyLinkedList<T> second){
     Node<T> *p = first.first;
     Node<T> *q = second.first;
     Node<T> *last = NULL;
@@ -371,11 +379,13 @@ void LinkedList<T>::merge(LinkedList<T> first, LinkedList<T> second){
     while(p && q){
         if(p->data < q->data){
             last->next = p;
+            p->back = last;
             last = p;
             p = p->next;
             last->next = NULL;
         }else{
             last->next = q;
+            q->back = last;
             last = q;
             q = q->next;
             last->next = NULL;
@@ -383,17 +393,19 @@ void LinkedList<T>::merge(LinkedList<T> first, LinkedList<T> second){
     }
     if(p){
         last->next = p;
+        p->back = last;
         last = first.last;
     }
     if(q){
         last->next = q;
+        q->back = last;
         last = second.last;
     }
 }
 
 template <class T>
 //Checks if linked list is looped or not
-bool LinkedList<T>::isLoop(){
+bool DoublyLinkedList<T>::isLoop(){
     if(last->next == NULL)
         return true;
     else
