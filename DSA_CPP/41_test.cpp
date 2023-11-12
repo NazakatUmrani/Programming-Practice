@@ -6,6 +6,14 @@ using namespace std;
 int main(){
     int A[] = {1, 2, 3, 3, 5, 8, 8};
     LinkedList<int> ll(A, 7);
+    ll.remove(0);
+    ll.remove(0);
+    ll.remove(0);
+    ll.remove(0);
+    ll.remove(0);
+    ll.remove(0);
+    ll.remove(0);
+    ll.remove(0);
     // ll.display();
     // cout<<"Max element in linked list = "<<ll.max()<<"\n";
     // cout<<"Min element in linked list = "<<ll.min()<<"\n";

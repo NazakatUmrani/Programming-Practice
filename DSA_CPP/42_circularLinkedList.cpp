@@ -8,13 +8,13 @@ class Node{
 
 template <class T>
 //Class LinkedList
-class LinkedList{
-    Node<T> *first, *last;
+class CircularLinkedList{
+    Node<T> *head, *last;
     int size;
     public:
-        LinkedList();
-        LinkedList(T *A, int n);
-        ~LinkedList();
+        CircularLinkedList();
+        CircularLinkedList(T *A, int n);
+        ~CircularLinkedList();
         void display();
         void insert(int index, T x);
         void remove(int index);
@@ -31,27 +31,26 @@ class LinkedList{
         void reverseData();
         void reverseLinks();
         void recursiveReverse(Node<T> *q, Node<T> *p);
-        void concatenate(LinkedList<T> first, LinkedList<T> second);
-        void merge(LinkedList<T> first, LinkedList<T> second);
-        bool isLoop();
+        void concatenate(CircularLinkedList<T> first, CircularLinkedList<T> second);
+        void merge(CircularLinkedList<T> first, CircularLinkedList<T> second);
 };
 
 template <class T>
 //Default constructor
-LinkedList<T>::LinkedList() : first(NULL), last(NULL), size(0){};
+CircularLinkedList<T>::CircularLinkedList() : head(NULL), last(NULL), size(0){};
 
 template <class T>
 //Parameterized constructor
-LinkedList<T>::LinkedList(T *A, int n){
+CircularLinkedList<T>::CircularLinkedList(T *A, int n){
     Node<T> *t;
-    first = new Node<T>;
-    first->data = A[0];
-    first->next = NULL;
-    last = first;
+    head = new Node<T>;
+    head->data = A[0];
+    head->next = head;
+    last = head;
     for(int i=1; i<n; i++){
         t = new Node<T>;
         t->data = A[i];
-        t->next = NULL;
+        t->next = head;
         last->next = t;
         last = t;
     }
@@ -60,22 +59,24 @@ LinkedList<T>::LinkedList(T *A, int n){
 
 template <class T>
 //Destructor which travels and deletes all nodes, in last next is NULL
-LinkedList<T>::~LinkedList(){
-    Node<T> *p = first;
-    while(first){
-        first = first->next;
+CircularLinkedList<T>::~CircularLinkedList(){
+    Node<T> *p = head;
+    while(head!=last){
+        head = first->next;
         delete p;
-        p = first;
+        p = head;
     }
+    delete p;
     size=0;
 }
 
 template <class T>
-//Display all elements in linked list
-void LinkedList<T>::display(){
-    Node<T> *p = first;
-    std::cout<<"[";
-    while(p){
+//Display all elements in circular linked list
+void CircularLinkedList<T>::display(){
+    Node<T> *p = head;
+    std::cout<<"["<<p->data<<", ";
+    p = p->next;
+    while(p!=head){
         std::cout<<p->data<<", ";
         p = p->next;
     }
@@ -84,8 +85,8 @@ void LinkedList<T>::display(){
 
 template <class T>
 //Insert element x at index
-void LinkedList<T>::insert(int index, T x){
-    Node<T> *t, *p = first;
+void CircularLinkedList<T>::insert(int index, T x){
+    Node<T> *t, *p = head;
     if(index < 0 || index > size){
         std::cout<<"Index out of range, Can't add element at "<<index<<"\n";
         return;
@@ -94,9 +95,11 @@ void LinkedList<T>::insert(int index, T x){
     t->data = x;
     t->next = NULL;
     if(index == 0){
-        t->next = first;
-        first = t;
-    }else{
+        t->next = head;
+        head = t;
+        last->next = head;
+    }
+    else{
         for(int i=0; i<index-1; i++){
             p = p->next;
         }
@@ -108,8 +111,8 @@ void LinkedList<T>::insert(int index, T x){
 
 template <class T>
 //Remove element at index
-void LinkedList<T>::remove(int index){
-    Node<T> *p = first, *q = NULL;
+void CircularLinkedList<T>::remove(int index){
+    Node<T> *p = head, *q = NULL;
     if(index < 0 || index > size){
         std::cout<<"Index out of range, Can't remove element at "<<index<<"\n";
         return;
@@ -119,7 +122,7 @@ void LinkedList<T>::remove(int index){
         return;
     }
     if(index == 0){
-        first = first->next;
+        head = (size==1) ? NULL : head->next;
         delete p;
     }else{
         for(int i=0; i<index-1; i++){
@@ -133,117 +136,123 @@ void LinkedList<T>::remove(int index){
 }
 
 template <class T>
-//Returns length of linked list
-int LinkedList<T>::length(){
+//Returns length of circular linked list
+int CircularLinkedList<T>::length(){
     return size;
 }
 
 template <class T>
-//Returns sum of all elements in linked list, if list is empty returns 0
-T LinkedList<T>::sum(){
-    Node<T> *p = first;
+//Returns sum of all elements in circular linked list, if list is empty returns 0
+T CircularLinkedList<T>::sum(){
+    Node<T> *p = head;
     T sum = 0;
-    while(p){
+    do{
         sum += p->data;
         p = p->next;
-    }
+    }while(p!=last->next);
     return sum;
 }
 
 template <class T>
-//Returns max element in linked list if list is empty returns 0
-T LinkedList<T>::max(){
-    Node<T> *p = first->next;
-    T max = first->data;
-    while(p){
+//Returns max element in circular linked list if list is empty returns 0
+T CircularLinkedList<T>::max(){
+    Node<T> *p = head->next;
+    T max = head->data;
+    do{
         if(p->data > max)
             max = p->data;
         p = p->next;
-    }
+    }while(p!=last->next);
     return max;
 }
 
 template <class T>
-//Returns min element in linked list, if list is empty returns 0
-T LinkedList<T>::min(){
-    Node<T> *p = first->next;
-    T min = first->data;
-    while(p){
+//Returns min element in circular linked list, if list is empty returns 0
+T CircularLinkedList<T>::min(){
+    Node<T> *p = head->next;
+    T min = head->data;
+    do{
         if(p->data < min)
             min = p->data;
         p = p->next;
-    }
+    }while(p!=last->next);
     return min;
 }
 
 template <class T>
 //Returns index of key if found, else returns -1
-int LinkedList<T>::search(T key){
-    Node<T> *p = first;
+int CircularLinkedList<T>::search(T key){
+    Node<T> *p = head;
     int index = 0;
-    while(p){
+    do{
         if(p->data == key)
             return index;
         p = p->next;
         index++;
-    }
+    }while(p==last->next);
     return -1;
 }
 
 template <class T>
-//Adds element at the end of linked list
-void LinkedList<T>::add(T x){
+//Adds element at the end of circular linked list
+void CircularLinkedList<T>::add(T x){
     Node<T> *t = new Node<T>;
     t->data = x;
     t->next = NULL;
-    if(first == NULL){
-        first = t;
+    if(head == NULL){
+        head = t;
         last = t;
+        last->next = head;
     }else{
         last->next = t;
         last = t;
+        t->next = head;
     }
     size++;
 }
 
-//Checks if linked list is sorted or not
+//Checks if circular linked list is sorted or not
 template <class T>
-bool LinkedList<T>::isSorted(){
-    Node<T> *p = first->next;
-    T x = first->data;
-    while(p){
+bool CircularLinkedList<T>::isSorted(){
+    Node<T> *p = head->next;
+    T x = head->data;
+    do{
         if(x > p->data){
             std::cout<<"Linked list is not sorted\n";
             return false;
         }
         x = p->data;
         p = p->next;
-    }
+    }while(p!=last->next);
     std::cout<<"Linked list is sorted\n";
     return true;
 }
 
 //Inserts element in sorted linked list
 template <class T>
-void LinkedList<T>::insertSorted(T x){
+void CircularLinkedList<T>::insertSorted(T x){
     if(!isSorted()){
         std::cout<<"Linked list is not sorted, can't insert element\n";
         return;
     }
-    Node<T> *p = first, *q = NULL, *t;
-    t = new Node<T>;
+    Node<T> *p = head, *q = NULL, *t = new Node<T>;
     t->data = x;
-    t->next = NULL;
-    if(first == NULL){
-        first = t;
+    t->next = t;
+    if(head == NULL){
+        head = t;
     }else{
-        while(p && p->data < x){
+        if(p->data < x){//this if is just to move first time pointer p to second node, so that loop could run conditions properly
             q = p;
             p = p->next;
         }
-        if(p == first){
-            t->next = first;
-            first = t;
+        while(p != head && p->data < x){
+            q = p;
+            p = p->next;
+        }
+        if(p == head){
+            t->next = head;
+            head = t;
+            last->next = head;
         }else{
             t->next = q->next;
             q->next = t;
@@ -252,34 +261,34 @@ void LinkedList<T>::insertSorted(T x){
     size++;
 }
 
-//Sorts linked list
+//Sorts Circular linked list
 template <class T>
-void LinkedList<T>::sort(){
-    Node<T> *p = first, *q = NULL;
-    int temp;
-    while(p){
+void CircularLinkedList<T>::sort(){
+    Node<T> *p = head, *q = NULL;
+    T temp;
+    do{
         q = p->next;
-        while(q){
+        do{
             if(p->data > q->data){
                 temp = p->data;
                 p->data = q->data;
                 q->data = temp;
             }
             q = q->next;
-        }
+        }while(q!=last->next);
         p = p->next;
-    }
+    }while(p!=last->next);
 }
 
 template <class T>
 //Removes duplicates from a sorted Linked List
-void LinkedList<T>::removeDuplicatesInSorted(){
-    Node<T> *p=first, *q=first->next;
+void CircularLinkedList<T>::removeDuplicatesInSorted(){
+    Node<T> *p=head, *q=head->next;
     if(size==0){
         std::cout<<"Linked list is empty, can't remove duplicates\n";
         return;
     }
-    while(q){
+    do{
         if(p->data != q->data){
             p=q;
             q=q->next;
@@ -290,113 +299,110 @@ void LinkedList<T>::removeDuplicatesInSorted(){
             q=p->next;
             size--;
         }
-    }
+    }while(q->next!=head);
 }
 
 template <class T>
 //Reverses data in linked list using array, space costly
-void LinkedList<T>::reverseData(){
+void CircularLinkedList<T>::reverseData(){
     if(size==0){
-        std::cout<<"Linked list is empty, can't reverse data\n";
+        std::cout<<"Circular Linked list is empty, can't reverse data\n";
         return;
     }
     T *A = new T[size];
-    Node<T> *p = first;
+    Node<T> *p = head;
     int i = 0;
-    while(p){
+    do{
         A[i++] = p->data;
         p = p->next;
-    }
-    p = first;
+    }while(p->next!=head);
+    p = head;
     i--;
-    while(p){
+    do{
         p->data = A[i--];
         p = p->next;
-    }
+    }while(p->next!=head);
 }
 
 template <class T>
 //Reverses links in linked list
-void LinkedList<T>::reverseLinks(){
-    Node<T> *p = first, *q = NULL, *r = NULL;
-    while(p){
+void CircularLinkedList<T>::reverseLinks(){
+    Node<T> *p = head, *q = NULL, *r = NULL;
+    last=head;
+    do{
         r = q;
         q = p;
         p = p->next;
         q->next = r;
-    }
-    first = q;
+    }while(p->next!=head);
+    head = q;
+    last->next = head;
 }
 
 template <class T>
 //Reverses links in linked list recursively
-void LinkedList<T>::recursiveReverse(Node<T> *q, Node<T> *p){
+void CircularLinkedList<T>::recursiveReverse(Node<T> *q, Node<T> *p){
     if(p){
         recursiveReverse(p, p->next);
         p->next = q;
     }else{
-        first = q;
+        head = q;
+        last = head;
+        last->next = head;
     }
 }
 
 template <class T>
 //Concatenates two linked lists in one linked list
-void LinkedList<T>::concatenate(LinkedList<T> first, LinkedList<T> second){
-    Node<T> *p = first.first;
-    Node<T> *q = second.first;
+void CircularLinkedList<T>::concatenate(CircularLinkedList<T> first, CircularLinkedList<T> second){
+    Node<T> *p = first.head;
+    Node<T> *q = second.head;
     Node<T> *t = NULL;
-    this->first = p;
-    while(p->next){
+    this->head = p;
+    do{
         p = p->next;
-    }
+    }while(p->next!=first.head);
     p->next = q;
     this->last = second.last;
+    this->last->next = first.head;
     this->size = first.size + second.size;
 }
 
 template <class T>
 //Merges two sorted linked lists in one sorted linked list
-void LinkedList<T>::merge(LinkedList<T> first, LinkedList<T> second){
-    Node<T> *p = first.first;
-    Node<T> *q = second.first;
+void CircularLinkedList<T>::merge(CircularLinkedList<T> first, CircularLinkedList<T> second){
+    Node<T> *p = first.head;
+    Node<T> *q = second.head;
     Node<T> *last = NULL;
     if(p->data < q->data){
-        this->first = last = p;
+        this->head = last = p;
         p = p->next;
-        last->next = NULL;
+        last->next = head;
     }else{
-        this->first = last = q;
+        this->head = last = q;
         q = q->next;
-        last->next = NULL;
+        last->next = head;
     }
-    while(p && q){
+    do{
         if(p->data < q->data){
             last->next = p;
             last = p;
             p = p->next;
-            last->next = NULL;
+            last->next = head;
         }else{
             last->next = q;
             last = q;
             q = q->next;
-            last->next = NULL;
+            last->next = head;
         }
-    }
-    if(p){
+    }while(p!=first.head && q!=second.head);
+    if(p!=first.head){
         last->next = p;
         last = first.last;
     }
-    if(q){
+    if(q!=second.head){
         last->next = q;
         last = second.last;
     }
-}
-
-template <class T>
-//Checks if linked list is looped or not
-bool LinkedList<T>::isLoop(){
-    if(last->next == NULL)
-        return true;
-    else
-        return false;
+    last->next=head;
 }
