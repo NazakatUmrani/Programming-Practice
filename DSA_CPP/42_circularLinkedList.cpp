@@ -73,6 +73,10 @@ CircularLinkedList<T>::~CircularLinkedList(){
 template <class T>
 //Display all elements in circular linked list
 void CircularLinkedList<T>::display(){
+    if(size==0){
+        std::cout <<"[]\n";
+        return;
+    }
     Node<T> *p = head;
     std::cout<<"["<<p->data<<", ";
     p = p->next;
@@ -283,11 +287,11 @@ void CircularLinkedList<T>::sort(){
 template <class T>
 //Removes duplicates from a sorted Linked List
 void CircularLinkedList<T>::removeDuplicatesInSorted(){
-    Node<T> *p=head, *q=head->next;
     if(size==0){
         std::cout<<"Linked list is empty, can't remove duplicates\n";
         return;
     }
+    Node<T> *p=head, *q=head->next;
     do{
         if(p->data != q->data){
             p=q;

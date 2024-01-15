@@ -79,6 +79,10 @@ DoublyLinkedList<T>::~DoublyLinkedList(){
 template <class T>
 //Display all elements in linked list
 void DoublyLinkedList<T>::display(){
+    if(size==0){
+        std::cout <<"[]\n";
+        return;
+    }
     Node<T> *p = first;
     std::cout<<"[";
     while(p){
@@ -283,11 +287,11 @@ void DoublyLinkedList<T>::sort(){
 template <class T>
 //Removes duplicates from a sorted Linked List
 void DoublyLinkedList<T>::removeDuplicatesInSorted(){
-    Node<T> *p=first, *q=first->next;
     if(size==0){
         std::cout<<"Linked list is empty, can't remove duplicates\n";
         return;
     }
+    Node<T> *p=first, *q=first->next;
     while(q){
         if(p->data != q->data){
             p=q;
