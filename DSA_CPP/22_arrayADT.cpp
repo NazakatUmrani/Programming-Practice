@@ -185,7 +185,7 @@ int arrayADT::sum(){
     return sum;
 }
 float arrayADT::avg(){
-    return sum()/length;
+    return (float)sum()/length;
 }
 void arrayADT::swap(int& a, int& b){
     int temp = a;

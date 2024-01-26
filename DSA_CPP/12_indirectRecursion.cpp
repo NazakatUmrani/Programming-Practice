@@ -12,7 +12,7 @@ void funB(int n){
 		funA(n/2);
 	}
 }
-int main()
+int main(){
 	funA(20);
 	return 0;
 }

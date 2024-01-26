@@ -1,3 +1,4 @@
+#include <iostream>
 template <class T>
 //Class Node
 class Node{
@@ -9,9 +10,9 @@ class Node{
 template <class T>
 //Class LinkedList
 class LinkedList{
-    Node<T> *first, *last;
-    int size;
     public:
+        int size;
+        Node<T> *first, *last;
         LinkedList();
         LinkedList(T *A, int n);
         ~LinkedList();
@@ -38,7 +39,7 @@ class LinkedList{
 
 template <class T>
 //Default constructor
-LinkedList<T>::LinkedList() : first(NULL), last(NULL), size(0){};
+LinkedList<T>::LinkedList() : first(nullptr), last(nullptr), size(0){};
 
 template <class T>
 //Parameterized constructor
@@ -46,12 +47,12 @@ LinkedList<T>::LinkedList(T *A, int n){
     Node<T> *t;
     first = new Node<T>;
     first->data = A[0];
-    first->next = NULL;
+    first->next = nullptr;
     last = first;
     for(int i=1; i<n; i++){
         t = new Node<T>;
         t->data = A[i];
-        t->next = NULL;
+        t->next = nullptr;
         last->next = t;
         last = t;
     }
@@ -59,7 +60,7 @@ LinkedList<T>::LinkedList(T *A, int n){
 }
 
 template <class T>
-//Destructor which travels and deletes all nodes, in last next is NULL
+//Destructor which travels and deletes all nodes, in last next is nullptr
 LinkedList<T>::~LinkedList(){
     Node<T> *p = first;
     while(first){
@@ -96,7 +97,7 @@ void LinkedList<T>::insert(int index, T x){
     }
     t = new Node<T>;
     t->data = x;
-    t->next = NULL;
+    t->next = nullptr;
     if(index == 0){
         t->next = first;
         first = t;
@@ -113,7 +114,7 @@ void LinkedList<T>::insert(int index, T x){
 template <class T>
 //Remove element at index
 void LinkedList<T>::remove(int index){
-    Node<T> *p = first, *q = NULL;
+    Node<T> *p = first, *q = nullptr;
     if(index < 0 || index > size){
         std::cout<<"Index out of range, Can't remove element at "<<index<<"\n";
         return;
@@ -199,8 +200,8 @@ template <class T>
 void LinkedList<T>::add(T x){
     Node<T> *t = new Node<T>;
     t->data = x;
-    t->next = NULL;
-    if(first == NULL){
+    t->next = nullptr;
+    if(first == nullptr){
         first = t;
         last = t;
     }else{
@@ -234,11 +235,11 @@ void LinkedList<T>::insertSorted(T x){
         std::cout<<"Linked list is not sorted, can't insert element\n";
         return;
     }
-    Node<T> *p = first, *q = NULL, *t;
+    Node<T> *p = first, *q = nullptr, *t;
     t = new Node<T>;
     t->data = x;
-    t->next = NULL;
-    if(first == NULL){
+    t->next = nullptr;
+    if(first == nullptr){
         first = t;
     }else{
         while(p && p->data < x){
@@ -259,7 +260,7 @@ void LinkedList<T>::insertSorted(T x){
 //Sorts linked list
 template <class T>
 void LinkedList<T>::sort(){
-    Node<T> *p = first, *q = NULL;
+    Node<T> *p = first, *q = nullptr;
     int temp;
     while(p){
         q = p->next;
@@ -322,7 +323,7 @@ void LinkedList<T>::reverseData(){
 template <class T>
 //Reverses links in linked list
 void LinkedList<T>::reverseLinks(){
-    Node<T> *p = first, *q = NULL, *r = NULL;
+    Node<T> *p = first, *q = nullptr, *r = nullptr;
     while(p){
         r = q;
         q = p;
@@ -349,7 +350,7 @@ template <class T>
 void LinkedList<T>::concatenate(LinkedList<T> first, LinkedList<T> second){
     Node<T> *p = first.first;
     Node<T> *q = second.first;
-    Node<T> *t = NULL;
+    Node<T> *t = nullptr;
     this->first = p;
     p = last;
     p->next = q;
@@ -362,27 +363,27 @@ template <class T>
 void LinkedList<T>::merge(LinkedList<T> first, LinkedList<T> second){
     Node<T> *p = first.first;
     Node<T> *q = second.first;
-    Node<T> *last = NULL;
+    Node<T> *last = nullptr;
     if(p->data < q->data){
         this->first = last = p;
         p = p->next;
-        last->next = NULL;
+        last->next = nullptr;
     }else{
         this->first = last = q;
         q = q->next;
-        last->next = NULL;
+        last->next = nullptr;
     }
     while(p && q){
         if(p->data < q->data){
             last->next = p;
             last = p;
             p = p->next;
-            last->next = NULL;
+            last->next = nullptr;
         }else{
             last->next = q;
             last = q;
             q = q->next;
-            last->next = NULL;
+            last->next = nullptr;
         }
     }
     if(p){
@@ -398,7 +399,7 @@ void LinkedList<T>::merge(LinkedList<T> first, LinkedList<T> second){
 template <class T>
 //Checks if linked list is looped or not
 bool LinkedList<T>::isLoop(){
-    if(last->next == NULL)
+    if(last->next == nullptr)
         return true;
     else
         return false;

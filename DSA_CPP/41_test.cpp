@@ -32,6 +32,7 @@ int main(){
     // ll.remove(0);
     // ll.remove(6);
     // ll.remove(3);
+    
     ll.removeDuplicatesInSorted();
     ll.display();
     // index=ll.search(6);

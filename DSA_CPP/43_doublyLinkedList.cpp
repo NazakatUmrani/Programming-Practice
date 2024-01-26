@@ -1,3 +1,4 @@
+#include <iostream>
 template <class T>
 //Class Node
 class Node{
@@ -5,13 +6,13 @@ class Node{
         T data;
         Node *next, *back;
         Node(){
-            next = NULL;
-            back = NULL;
+            next = nullptr;
+            back = nullptr;
         }
         Node(T x){
             data = x;
-            next = NULL;
-            back = NULL;
+            next = nullptr;
+            back = nullptr;
         }
 };
 
@@ -47,7 +48,7 @@ class DoublyLinkedList{
 
 template <class T>
 //Default constructor
-DoublyLinkedList<T>::DoublyLinkedList() : first(NULL), last(NULL), size(0){};
+DoublyLinkedList<T>::DoublyLinkedList() : first(nullptr), last(nullptr), size(0){};
 
 template <class T>
 //Parameterized constructor
@@ -65,7 +66,7 @@ DoublyLinkedList<T>::DoublyLinkedList(T *A, int n){
 }
 
 template <class T>
-//Destructor which travels and deletes all nodes, in last next is NULL
+//Destructor which travels and deletes all nodes, in last next is nullptr
 DoublyLinkedList<T>::~DoublyLinkedList(){
     Node<T> *p = first;
     while(first){
@@ -121,7 +122,7 @@ void DoublyLinkedList<T>::insert(int index, T x){
 template <class T>
 //Remove element at index
 void DoublyLinkedList<T>::remove(int index){
-    Node<T> *p = first, *q = NULL;
+    Node<T> *p = first, *q = nullptr;
     if(index < 0 || index > size){
         std::cout<<"Index out of range, Can't remove element at "<<index<<"\n";
         return;
@@ -208,7 +209,7 @@ template <class T>
 //Adds element at the end of linked list
 void DoublyLinkedList<T>::add(T x){
     Node<T> *t = new Node<T>(x);
-    if(first == NULL){
+    if(first == nullptr){
         first = t;
         last = t;
     }else{
@@ -245,7 +246,7 @@ void DoublyLinkedList<T>::insertSorted(T x){
     }
     Node<T> *p = first, *t;
     t = new Node<T>(x);
-    if(first == NULL){
+    if(first == nullptr){
         first = t;
     }else{
         while(p && p->data < x){
@@ -268,7 +269,7 @@ void DoublyLinkedList<T>::insertSorted(T x){
 //Sorts linked list
 template <class T>
 void DoublyLinkedList<T>::sort(){
-    Node<T> *p = first, *q = NULL;
+    Node<T> *p = first, *q = nullptr;
     int temp;
     while(p){
         q = p->next;
@@ -327,7 +328,7 @@ void DoublyLinkedList<T>::reverseData(){
 template <class T>
 //Reverses links in linked list
 void DoublyLinkedList<T>::reverseLinks(){
-    Node<T> *p = first, *q = NULL, *r = NULL;
+    Node<T> *p = first, *q = nullptr, *r = nullptr;
     while(p){
         r = q;
         q = p;
@@ -356,7 +357,7 @@ template <class T>
 void DoublyLinkedList<T>::concatenate(DoublyLinkedList<T> first, DoublyLinkedList<T> second){
     Node<T> *p = first.first;
     Node<T> *q = second.first;
-    Node<T> *t = NULL;
+    Node<T> *t = nullptr;
     this->first = p;
     p = last;
     p->next = q;
@@ -370,15 +371,15 @@ template <class T>
 void DoublyLinkedList<T>::merge(DoublyLinkedList<T> first, DoublyLinkedList<T> second){
     Node<T> *p = first.first;
     Node<T> *q = second.first;
-    Node<T> *last = NULL;
+    Node<T> *last = nullptr;
     if(p->data < q->data){
         this->first = last = p;
         p = p->next;
-        last->next = NULL;
+        last->next = nullptr;
     }else{
         this->first = last = q;
         q = q->next;
-        last->next = NULL;
+        last->next = nullptr;
     }
     while(p && q){
         if(p->data < q->data){
@@ -386,13 +387,13 @@ void DoublyLinkedList<T>::merge(DoublyLinkedList<T> first, DoublyLinkedList<T> s
             p->back = last;
             last = p;
             p = p->next;
-            last->next = NULL;
+            last->next = nullptr;
         }else{
             last->next = q;
             q->back = last;
             last = q;
             q = q->next;
-            last->next = NULL;
+            last->next = nullptr;
         }
     }
     if(p){
@@ -410,7 +411,7 @@ void DoublyLinkedList<T>::merge(DoublyLinkedList<T> first, DoublyLinkedList<T> s
 template <class T>
 //Checks if linked list is looped or not
 bool DoublyLinkedList<T>::isLoop(){
-    if(last->next == NULL)
+    if(last->next == nullptr)
         return true;
     else
         return false;

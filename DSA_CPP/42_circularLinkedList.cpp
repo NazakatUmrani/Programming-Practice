@@ -1,3 +1,4 @@
+#include <iostream>
 template <class T>
 //Class Node
 class Node{
@@ -37,7 +38,7 @@ class CircularLinkedList{
 
 template <class T>
 //Default constructor
-CircularLinkedList<T>::CircularLinkedList() : head(NULL), last(NULL), size(0){};
+CircularLinkedList<T>::CircularLinkedList() : head(nullptr), last(nullptr), size(0){};
 
 template <class T>
 //Parameterized constructor
@@ -58,11 +59,11 @@ CircularLinkedList<T>::CircularLinkedList(T *A, int n){
 }
 
 template <class T>
-//Destructor which travels and deletes all nodes, in last next is NULL
+//Destructor which travels and deletes all nodes, in last next is nullptr
 CircularLinkedList<T>::~CircularLinkedList(){
     Node<T> *p = head;
     while(head!=last){
-        head = first->next;
+        head = head->next;
         delete p;
         p = head;
     }
@@ -97,7 +98,7 @@ void CircularLinkedList<T>::insert(int index, T x){
     }
     t = new Node<T>;
     t->data = x;
-    t->next = NULL;
+    t->next = nullptr;
     if(index == 0){
         t->next = head;
         head = t;
@@ -116,7 +117,7 @@ void CircularLinkedList<T>::insert(int index, T x){
 template <class T>
 //Remove element at index
 void CircularLinkedList<T>::remove(int index){
-    Node<T> *p = head, *q = NULL;
+    Node<T> *p = head, *q = nullptr;
     if(index < 0 || index > size){
         std::cout<<"Index out of range, Can't remove element at "<<index<<"\n";
         return;
@@ -126,7 +127,7 @@ void CircularLinkedList<T>::remove(int index){
         return;
     }
     if(index == 0){
-        head = (size==1) ? NULL : head->next;
+        head = (size==1) ? nullptr : head->next;
         delete p;
     }else{
         for(int i=0; i<index-1; i++){
@@ -202,8 +203,8 @@ template <class T>
 void CircularLinkedList<T>::add(T x){
     Node<T> *t = new Node<T>;
     t->data = x;
-    t->next = NULL;
-    if(head == NULL){
+    t->next = nullptr;
+    if(head == nullptr){
         head = t;
         last = t;
         last->next = head;
@@ -239,10 +240,10 @@ void CircularLinkedList<T>::insertSorted(T x){
         std::cout<<"Linked list is not sorted, can't insert element\n";
         return;
     }
-    Node<T> *p = head, *q = NULL, *t = new Node<T>;
+    Node<T> *p = head, *q = nullptr, *t = new Node<T>;
     t->data = x;
     t->next = t;
-    if(head == NULL){
+    if(head == nullptr){
         head = t;
     }else{
         if(p->data < x){//this if is just to move first time pointer p to second node, so that loop could run conditions properly
@@ -268,7 +269,7 @@ void CircularLinkedList<T>::insertSorted(T x){
 //Sorts Circular linked list
 template <class T>
 void CircularLinkedList<T>::sort(){
-    Node<T> *p = head, *q = NULL;
+    Node<T> *p = head, *q = nullptr;
     T temp;
     do{
         q = p->next;
@@ -331,7 +332,7 @@ void CircularLinkedList<T>::reverseData(){
 template <class T>
 //Reverses links in linked list
 void CircularLinkedList<T>::reverseLinks(){
-    Node<T> *p = head, *q = NULL, *r = NULL;
+    Node<T> *p = head, *q = nullptr, *r = nullptr;
     last=head;
     do{
         r = q;
@@ -361,7 +362,7 @@ template <class T>
 void CircularLinkedList<T>::concatenate(CircularLinkedList<T> first, CircularLinkedList<T> second){
     Node<T> *p = first.head;
     Node<T> *q = second.head;
-    Node<T> *t = NULL;
+    Node<T> *t = nullptr;
     this->head = p;
     p = last;
     p->next = q;
@@ -375,7 +376,7 @@ template <class T>
 void CircularLinkedList<T>::merge(CircularLinkedList<T> first, CircularLinkedList<T> second){
     Node<T> *p = first.head;
     Node<T> *q = second.head;
-    Node<T> *last = NULL;
+    Node<T> *last = nullptr;
     if(p->data < q->data){
         this->head = last = p;
         p = p->next;
