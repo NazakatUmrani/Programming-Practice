@@ -179,17 +179,17 @@ class Tree{
         tNode->left = generateFromTraversal(inorder, preorder, inStart, inIndex - 1);
         tNode->right = generateFromTraversal(inorder, preorder, inIndex + 1, inEnd);
         return tNode;
+    }
     int height(Node<T>* p){
-    }
-    int countNodes(Node<T>* p){
-        if (p == nullptr) return 0;
-        return countNodes(p->left) + countNodes(p->right) + 1;
-    }
         int x = 0, y = 0;
         if (p == nullptr) return 0;
         x = height(p->left);
         y = height(p->right);
         return x > y ? x + 1 : y + 1;
+    }
+    int countNodes(Node<T>* p){
+        if (p == nullptr) return 0;
+        return countNodes(p->left) + countNodes(p->right) + 1;
     }
     int countLeafNodes(Node<T>* p){
         int x = 0, y = 0;
