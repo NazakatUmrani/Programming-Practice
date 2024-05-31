@@ -72,7 +72,7 @@ class Tree{
 
     /* then delete the node */
     delete node;
-}
+    }
 
     void Preorder() { Preorder(root); }
     void Inorder() { Inorder(root); }
@@ -97,6 +97,23 @@ class Tree{
             Postorder(p->left);
             Postorder(p->right);
             cout << p->data << ", " << flush;
+        }
+    }
+    void LevelOrder(){
+        queue<Node<T> *> q;
+        cout << root->data << ", " << flush;
+        q.emplace(root);
+        while (!q.empty()){
+            Node<T> *p = q.front();
+            q.pop();
+            if (p->left){
+                cout << p->left->data << ", " << flush;
+                q.emplace(p->left);
+            }
+            if (p->right){
+                cout << p->right->data << ", " << flush;
+                q.emplace(p->right);
+            }
         }
     }
 };
