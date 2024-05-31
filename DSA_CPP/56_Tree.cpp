@@ -116,6 +116,60 @@ class Tree{
             }
         }
     }
+    void iterativePreorder() { iterativePreorder(root); }
+    void iterativePreorder(Node<T>* p){
+        stack<Node<T>*> stk;
+        while (p != nullptr || ! stk.empty()){
+            if (p != nullptr){
+                cout << p->data << ", " << flush;
+                stk.emplace(p);
+                p = p->lchild;
+            } else {
+                p = stk.top();
+                stk.pop();
+                p = p->rchild;
+            }
+        }
+        cout << endl;
+    }
+    void iterativeInorder() { iterativeInorder(root); }
+    void iterativeInorder(Node<T>* p){
+        stack<Node<T>*> stk;
+        while (p != nullptr || ! stk.empty()){
+            if (p != nullptr){
+                stk.emplace(p);
+                p = p->lchild;
+            } else {
+                p = stk.top();
+                stk.pop();
+                cout << p->data << ", " << flush;
+                p = p->rchild;
+            }
+        }
+        cout << endl;
+    }
+    void iterativePostorder() { iterativePostorder(root); }
+    void iterativePostorder(Node<T>* p){
+        stack<long int> stk;
+        long int temp;
+        while (p != nullptr || ! stk.empty()){
+            if (p != nullptr){
+                stk.emplace((long int)p);
+                p = p->lchild;
+            } else {
+                temp = stk.top();
+                stk.pop();
+                if (temp > 0){
+                    stk.emplace(-temp);
+                    p = ((Node<T>*)temp)->rchild;
+                } else {
+                    cout << ((Node<T>*)-temp)->data << ", " << flush;
+                    p = nullptr;
+                }
+            }
+        }
+        cout << endl;
+    }
 };
 
 int main(){
