@@ -170,6 +170,16 @@ class Tree{
         }
         cout << endl;
     }
+    Node<T>* generateFromTraversal(int inorder[], int preorder[], int inStart, int inEnd){
+        static int preIndex = 0;
+        if (inStart > inEnd) return nullptr;
+        Node<T>* tNode = new Node<T>(preorder[preIndex++]);
+        if (inStart == inEnd) return tNode;
+        int inIndex = search(inorder, inStart, inEnd, tNode->data);
+        tNode->left = generateFromTraversal(inorder, preorder, inStart, inIndex - 1);
+        tNode->right = generateFromTraversal(inorder, preorder, inIndex + 1, inEnd);
+        return tNode;
+    }
 };
 
 int main(){
