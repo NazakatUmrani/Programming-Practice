@@ -98,9 +98,9 @@ export default function Voucher() {
           </div>
           <div className="min-h-52"></div>
         </div>
-        <div className="w-[50%] previewimg flex flex-col justify-center items-center">
+        <div className="w-[50%] h-auto previewimg flex flex-col justify-center items-center">
           <div className="w-full h-full p-20 flex flex-col">
-            <Label className="text-white text-[1vw]">Recipient's Gift Voucher Preview (Email)</Label>
+            <Label className="text-white text-[1vw] mt-2">Recipient's Gift Voucher Preview (Email)</Label>
             <div className="inneremail self-center"></div>
             <Label className="text-white text-[1vw]">Dear (recipient name),</Label>
             <Label className="text-white text-[1vw] mt-6">You have received a 1-hour driving lesson gift voucher
